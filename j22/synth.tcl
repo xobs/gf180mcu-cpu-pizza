@@ -219,10 +219,12 @@ if { [info exists ::env(VERILOG_FILES_BLACKBOX)] } {
 }
 
 if {[info exists ::env(SYSTEMVERILOG_FILES)]} {
-    plugin -l
     plugin -i systemverilog
-    plugin -l
     yosys -import
+    # for { set i 0 } { $i < [llength $::env(SYSTEMVERILOG_FILES)] } { incr i } {
+    #     read_systemverilog -defer [lindex $::env(SYSTEMVERILOG_FILES) $i]
+    # }
+    # read_systemverilog -link
     read_systemverilog {*}$::env(SYSTEMVERILOG_FILES)
 }
 

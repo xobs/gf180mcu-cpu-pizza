@@ -14,7 +14,6 @@
     "SYNTH_AUTONAME": 1,
 
     "SYNTH_STRATEGY": "DELAY 4",
-    "DIODE_INSERTION_STRATEGY": 4,
     "RUN_CVC": 1,
     "RUN_MAGIC": 1,
     "RUN_KLAYOUT": 0,

@@ -17,12 +17,12 @@
     "FP_SIZING": "absolute",
     "DIE_AREA": "0 0 900 900",
 
+    "SYNTH_NO_FLATTEN": 1,
     "SYNTH_AUTONAME": 1,
     "SYNTH_SCRIPT": "dir::synth.tcl",
     "SYNTH_BIN": "uhdm-yosys",
 
     "SYNTH_STRATEGY": "AREA 2",
-    "DIODE_INSERTION_STRATEGY": 4,
     "RUN_CVC": 1,
     "RUN_MAGIC": 1,
     "RUN_KLAYOUT": 0,
@@ -52,9 +52,8 @@
         "VDD_NETS": ["vdd"],
         "GND_NETS": ["vss"],
         "CLOCK_PERIOD": 24.0,
-        "FP_CORE_UTIL": 30,
+        "FP_CORE_UTIL": 25,
         "RT_MAX_LAYER": "Metal4",
-        "SYNTH_MAX_FANOUT": 5,
-        "MACRO_PLACEMENT_CFG": "dir::macro_placement.cfg"
+        "SYNTH_MAX_FANOUT": 5
     }
 }
