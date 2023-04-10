@@ -1,0 +1,10 @@
+*.v         text eol=lf linguist-language=Verilog
+*.vh        text eol=lf linguist-language=Verilog
+*.vhd       text eol=lf
+Makefile    text eol=lf
+README.md   text eol=lf
+*.py        text eol=lf
+*.sh        text eol=lf
+*.ys        text eol=lf
+*.bat       text eol=crlf
+*.ps1       text eol=crlf
