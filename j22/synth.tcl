@@ -222,7 +222,8 @@ if {[info exists ::env(SYSTEMVERILOG_FILES)]} {
     plugin -l
     plugin -i systemverilog
     plugin -l
-    read_systemverilog [join $::env(SYSTEMVERILOG_FILES) " "]
+    yosys -import
+    read_systemverilog {*}$::env(SYSTEMVERILOG_FILES)
 }
 
 if { [info exists ::env(SYNTH_PARAMETERS) ] } {
