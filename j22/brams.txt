@@ -1,0 +1,92 @@
+ram block $__FAKE_DP16KD_ {
+	abits 14;
+	widths 1 2 4 9 18 per_port;
+	byte 9;
+	cost 128;
+	init no_undef;
+	port srsw "A" "B" {
+		clock anyedge;
+		clken;
+		wrbe_separate;
+		portoption "WRITEMODE" "NORMAL" {
+			rdwr no_change;
+		}
+		portoption "WRITEMODE" "WRITETHROUGH" {
+			rdwr new;
+		}
+		portoption "WRITEMODE" "READBEFOREWRITE" {
+			rdwr old;
+		}
+		option "RESETMODE" "SYNC" {
+			rdsrst zero ungated block_wr;
+		}
+		option "RESETMODE" "ASYNC" {
+			rdarst zero;
+		}
+		rdinit zero;
+	}
+}
+
+# A distributed-class RAM called $__RAM16X4SDP_
+ram distributed $__RAM16X4SDP_ {
+    # Has 4 address bits (ie. 16 rows).
+    abits 4;
+    # Has 4 data bits.
+    width 4;
+    # Cost for the selection heuristic.
+    cost 4;
+    # Can be initialized to any value on startup.
+    init any;
+    # Has a synchronous write port called "W"...
+    port sw "W" {
+        # ... with a positive edge clock.
+        clock posedge;
+    }
+    # Has an asynchronous read port called "R".
+    port ar "R" {
+    }
+    # Has an asynchronous read port called "R".
+    port ar "R2" {
+    }
+    # Has an asynchronous read port called "R".
+    port ar "R3" {
+    }
+}
+
+ram block $__RAMB9K_ {
+    # Has 13 address bits in the base (most narrow) data width.
+    abits 13;
+    # The available widths are:
+    # - 1 (13 address bits)
+    # - 2 (12 address bits)
+    # - 4 (11 address bits)
+    # - 9 (10 address bits)
+    # - 18 (9 address bits)
+    # The width selection is per-port.
+    widths 1 2 4 9 18 per_port;
+    # Has a write enable signal with 1 bit for every 9 data bits.
+    byte 9;
+    cost 64;
+    init any;
+    # Has two synchronous read+write ports, called "A" and "B".
+    port srsw "A" "B" {
+        clock posedge;
+        # Has a clock enable signal (gates both read and write).
+        clken;
+        # Has three per-port selectable options for handling read+write behavior:
+        portoption "RDWR" "NO_CHANGE" {
+            # When port is writing, reading is not done (output register keeps
+            # its value).
+            rdwr no_change;
+        }
+        portoption "RDWR" "OLD" {
+            # When port is writing, the data read is the old value (before the
+            # write).
+            rdwr old;
+        }
+        portoption "RDWR" "NEW" {
+            # When port is writing, the data read is the new value.
+            rdwr new;
+        }
+    }
+}

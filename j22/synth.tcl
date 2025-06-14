@@ -221,11 +221,13 @@ if { [info exists ::env(VERILOG_FILES_BLACKBOX)] } {
 if {[info exists ::env(SYSTEMVERILOG_FILES)]} {
     plugin -i systemverilog
     yosys -import
-    # for { set i 0 } { $i < [llength $::env(SYSTEMVERILOG_FILES)] } { incr i } {
-    #     read_systemverilog -defer [lindex $::env(SYSTEMVERILOG_FILES) $i]
-    # }
-    # read_systemverilog -link
-    read_systemverilog {*}$::env(SYSTEMVERILOG_FILES)
+    for { set i 0 } { $i < [llength $::env(SYSTEMVERILOG_FILES)] } { incr i } {
+        log -stderr "Synthesizing [lindex $::env(SYSTEMVERILOG_FILES) $i]"
+        read_systemverilog -defer [lindex $::env(SYSTEMVERILOG_FILES) $i]
+    }
+    log -stderr "Linking all items together"
+    read_systemverilog -link
+    # read_systemverilog {*}$::env(SYSTEMVERILOG_FILES)
 }
 
 if { [info exists ::env(SYNTH_PARAMETERS) ] } {
@@ -265,9 +267,18 @@ if { $adder_type == "RCA"} {
 }
 
 if { $::env(SYNTH_NO_FLAT) } {
-    synth -top $vtop
+    synth -top $vtop -run begin:fine
 } else {
-    synth -top $vtop -flatten
+    synth -top $vtop -flatten -run begin:fine
+}
+
+yosys memory_libmap -lib /si/work/pizza-test/j22/brams.txt
+yosys techmap -map /si/work/pizza-test/j22/brams_map.v
+
+if { $::env(SYNTH_NO_FLAT) } {
+    synth -top $vtop -run fine
+} else {
+    synth -top $vtop -flatten -run fine
 }
 
 if { $::env(SYNTH_EXTRA_MAPPING_FILE) ne "" } {

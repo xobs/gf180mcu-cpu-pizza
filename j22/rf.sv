@@ -28,7 +28,7 @@ module rf
     output logic [31:0] pc
    );
 
-   logic [15:0][31:0] gpr;
+   logic [31:0] gpr [15:0];
    logic [31:0]       gbr;
    logic [31:0]       vbr;
    logic [31:0]       pr;
